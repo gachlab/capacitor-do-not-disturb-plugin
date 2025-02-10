@@ -1,32 +1,26 @@
 <!DOCTYPE html>
-<html lang="en" dir="ltr">
+<html lang="en" dir="ltr" class="hydrated">
   <head>
     <meta charset="UTF-8" />
-    <title>Awesome Capacitor App</title>
+    <title>Example Capacitor App</title>
     <meta
       name="viewport"
       content="viewport-fit=cover, width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"
     />
     <meta name="format-detection" content="telephone=no" />
-    <meta name="msapplication-tap-highlight" content="no" />
-
-    <script
-      type="module"
-      src="https://unpkg.com/@ionic/pwa-elements@latest/dist/ionicpwaelements/ionicpwaelements.esm.js"
-    ></script>
-    <script
-      nomodule
-      src="https://unpkg.com/@ionic/pwa-elements@latest/dist/ionicpwaelements/ionicpwaelements.js"
-    ></script>
-
-    <link rel="icon" type="image/x-icon" href="./assets/icon/favicon.ico" />
-    <link rel="manifest" href="./manifest.json" />
-    <link rel="stylesheet" href="./css/style.css" />
-    <meta name="theme-color" content="#31d53d" />
   </head>
   <body>
-    <capacitor-welcome></capacitor-welcome>
+    <main>
+      <h1>Capacitor Test Plugin Project</h1>
+      <p>
+        This project can be used to test out the functionality of your plugin.
+        Nothing in the <em>example/</em> folder will be published to npm when
+        using this template, so you can create away!
+      </p>
 
-    <script src="./js/capacitor-welcome.js" type="module"></script>
+      <button onclick="testMonitor()">Test Monitor</button>
+    </main>
+
+    <script src="./js/example.js" type="module"></script>
   </body>
 </html>

@@ -1,10 +1,9 @@
-import { WebPlugin } from '@capacitor/core';
+import { WebPlugin } from "@capacitor/core";
 
-import type { DoNotDisturbPlugin } from './definitions';
+import type { DoNotDisturbPlugin } from "./definitions";
 
 export class DoNotDisturbWeb extends WebPlugin implements DoNotDisturbPlugin {
-  async echo(options: { value: string }): Promise<{ value: string }> {
-    console.log('ECHO', options);
-    return options;
+  monitor(): Promise<any> {
+    throw new Error("Method not implemented in web.");
   }
 }

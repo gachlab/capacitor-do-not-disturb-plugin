@@ -1,12 +1,17 @@
 package com.gachlab.capacitor.dnd;
 
+import android.Manifest;
+
 import com.getcapacitor.JSObject;
 import com.getcapacitor.Plugin;
 import com.getcapacitor.PluginCall;
 import com.getcapacitor.PluginMethod;
 import com.getcapacitor.annotation.CapacitorPlugin;
+import com.getcapacitor.annotation.Permission;
 
-@CapacitorPlugin(name = "DoNotDisturb")
+@CapacitorPlugin(name = "DoNotDisturb", permissions = {
+        @Permission(alias = "notifications-policy", strings = { Manifest.permission.ACCESS_NOTIFICATION_POLICY })
+})
 public class DoNotDisturbPlugin extends Plugin {
 
     private DoNotDisturb implementation = new DoNotDisturb();
