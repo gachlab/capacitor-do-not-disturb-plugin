@@ -14,6 +14,7 @@ npx cap sync
 <docgen-index>
 
 * [`monitor()`](#monitor)
+* [`set(...)`](#set)
 
 </docgen-index>
 
@@ -23,10 +24,23 @@ npx cap sync
 ### monitor()
 
 ```typescript
-monitor() => Promise<any>
+monitor() => Promise<{ enabled: boolean; }>
 ```
 
-**Returns:** <code>Promise&lt;any&gt;</code>
+**Returns:** <code>Promise&lt;{ enabled: boolean; }&gt;</code>
+
+--------------------
+
+
+### set(...)
+
+```typescript
+set(options: { enabled: boolean; }) => Promise<void>
+```
+
+| Param         | Type                               |
+| ------------- | ---------------------------------- |
+| **`options`** | <code>{ enabled: boolean; }</code> |
 
 --------------------
 

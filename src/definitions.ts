@@ -1,3 +1,4 @@
 export interface DoNotDisturbPlugin {
-  monitor(): Promise<any>;
+  monitor(): Promise<{ enabled: boolean }>;
+  set(options: { enabled: boolean }): Promise<void>;
 }

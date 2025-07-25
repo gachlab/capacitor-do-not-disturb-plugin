@@ -1,6 +1,6 @@
 {
   "name": "@gachlab/capacitor-dnd-plugin",
-  "version": "1.1.0",
+  "version": "1.3.0",
   "description": "A plugin to set and monitor the Do Not Disturb state",
   "main": "dist/plugin.cjs.js",
   "module": "dist/esm/index.js",
@@ -38,16 +38,17 @@
     "prettier": "prettier \"**/*.{css,html,ts,js,java}\" --plugin=prettier-plugin-java",
     "swiftlint": "node-swiftlint",
     "docgen": "docgen --api DoNotDisturbPlugin --output-readme README.md --output-json dist/docs.json",
-    "build": "npm run clean && npm run docgen && tsc && rollup -c rollup.config.mjs",
+    "build": "npm run clean && npm run docgen && vite build && npm run build:types",
+    "build:types": "tsc --emitDeclarationOnly",
     "clean": "rimraf ./dist",
-    "watch": "tsc --watch",
+    "watch": "vite build --watch",
     "prepublishOnly": "npm run build"
   },
   "devDependencies": {
-    "@capacitor/android": "^7.0.0",
-    "@capacitor/core": "^7.0.0",
+    "@capacitor/android": "7.4.2",
+    "@capacitor/core": "7.4.2",
     "@capacitor/docgen": "^0.3.0",
-    "@capacitor/ios": "^7.0.0",
+    "@capacitor/ios": "7.4.2",
     "@ionic/eslint-config": "^0.4.0",
     "@ionic/prettier-config": "^4.0.0",
     "@ionic/swiftlint-config": "^2.0.0",
@@ -55,12 +56,12 @@
     "prettier": "^3.4.2",
     "prettier-plugin-java": "^2.6.6",
     "rimraf": "^6.0.1",
-    "rollup": "^4.30.1",
     "swiftlint": "^2.0.0",
-    "typescript": "~5.3.3"
+    "typescript": "~5.3.3",
+    "vite": "^5.0.0"
   },
   "peerDependencies": {
-    "@capacitor/core": ">=7.0.0"
+    "@capacitor/core": ">=7.4.2"
   },
   "prettier": "@ionic/prettier-config",
   "swiftlint": "@ionic/swiftlint-config",

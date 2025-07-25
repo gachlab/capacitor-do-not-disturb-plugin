@@ -3,7 +3,13 @@ import { WebPlugin } from "@capacitor/core";
 import type { DoNotDisturbPlugin } from "./definitions";
 
 export class DoNotDisturbWeb extends WebPlugin implements DoNotDisturbPlugin {
-  monitor(): Promise<any> {
-    throw new Error("Method not implemented in web.");
+  async monitor(): Promise<{ enabled: boolean }> {
+    return { enabled: false };
   }
+
+  async set(_options: { enabled: boolean }): Promise<void> {
+    throw new Error('Setting DND state not supported on web');
+  }
+
+
 }

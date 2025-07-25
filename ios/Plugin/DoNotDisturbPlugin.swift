@@ -1,18 +1,31 @@
 import Foundation
 import Capacitor
 
-/**
- * Please read the Capacitor iOS Plugin Development Guide
- * here: https://capacitorjs.com/docs/plugins/ios
- */
 @objc(DoNotDisturbPlugin)
 public class DoNotDisturbPlugin: CAPPlugin {
     private let implementation = DoNotDisturb()
 
-    @objc func echo(_ call: CAPPluginCall) {
-        let value = call.getString("value") ?? ""
+    public override func load() {
+        implementation.startListening {
+            self.notifyListeners("monitor", data: [
+                "enabled": self.implementation.isEnabled()
+            ])
+        }
+    }
+
+    @objc func monitor(_ call: CAPPluginCall) {
         call.resolve([
-            "value": implementation.echo(value)
+            "enabled": implementation.isEnabled()
         ])
+    }
+    
+    @objc func set(_ call: CAPPluginCall) {
+        call.reject("iOS doesn't allow programmatic DND control")
+    }
+    
+
+
+    deinit {
+        implementation.stopListening()
     }
 }
