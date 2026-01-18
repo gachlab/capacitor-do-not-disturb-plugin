@@ -11,7 +11,8 @@
     "android/build.gradle",
     "dist/",
     "ios/Plugin/",
-    "GachlabCapacitorDndPlugin.podspec"
+    "GachlabCapacitorDndPlugin.podspec",
+    "Package.swift"
   ],
   "author": "Guillermo Carrillo",
   "license": "MIT",
@@ -32,9 +33,8 @@
     "verify:ios": "cd ios && pod install && xcodebuild -workspace Plugin.xcworkspace -scheme Plugin -destination generic/platform=iOS && cd ..",
     "verify:android": "cd android && ./gradlew clean build test && cd ..",
     "verify:web": "npm run build",
-    "lint": "npm run eslint && npm run prettier -- --check && npm run swiftlint -- lint",
-    "fmt": "npm run eslint -- --fix && npm run prettier -- --write && npm run swiftlint -- --fix --format",
-    "eslint": "eslint . --ext ts",
+    "lint": "eslint . && npm run prettier -- --check && npm run swiftlint -- lint",
+    "fmt": "eslint . --fix && npm run prettier -- --write && npm run swiftlint -- --fix --format",
     "prettier": "prettier \"**/*.{css,html,ts,js,java}\" --plugin=prettier-plugin-java",
     "swiftlint": "node-swiftlint",
     "docgen": "docgen --api DoNotDisturbPlugin --output-readme README.md --output-json dist/docs.json",
@@ -45,29 +45,27 @@
     "prepublishOnly": "npm run build"
   },
   "devDependencies": {
-    "@capacitor/android": "7.4.2",
-    "@capacitor/core": "7.4.2",
-    "@capacitor/docgen": "^0.3.0",
-    "@capacitor/ios": "7.4.2",
-    "@ionic/eslint-config": "^0.4.0",
+    "@capacitor/android": "^8.0.1",
+    "@capacitor/core": "^8.0.1",
+    "@capacitor/docgen": "^0.3.1",
+    "@capacitor/ios": "^8.0.1",
     "@ionic/prettier-config": "^4.0.0",
     "@ionic/swiftlint-config": "^2.0.0",
-    "eslint": "^8.57.0",
-    "prettier": "^3.4.2",
-    "prettier-plugin-java": "^2.6.6",
-    "rimraf": "^6.0.1",
+    "@typescript-eslint/eslint-plugin": "^8.53.0",
+    "@typescript-eslint/parser": "^8.53.0",
+    "eslint": "^9.39.2",
+    "prettier": "^3.8.0",
+    "prettier-plugin-java": "^2.8.1",
+    "rimraf": "^6.1.2",
     "swiftlint": "^2.0.0",
-    "typescript": "~5.3.3",
-    "vite": "^5.0.0"
+    "typescript": "^5.9.3",
+    "vite": "^7.3.1"
   },
   "peerDependencies": {
-    "@capacitor/core": ">=7.4.2"
+    "@capacitor/core": "^8.0.1"
   },
   "prettier": "@ionic/prettier-config",
   "swiftlint": "@ionic/swiftlint-config",
-  "eslintConfig": {
-    "extends": "@ionic/eslint-config/recommended"
-  },
   "capacitor": {
     "ios": {
       "src": "ios"
