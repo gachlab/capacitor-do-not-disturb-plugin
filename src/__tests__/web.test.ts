@@ -8,18 +8,30 @@ describe('DoNotDisturbWeb', () => {
     plugin = new DoNotDisturbWeb();
   });
 
-  it('isEnabled returns false on web', async () => {
-    const result = await plugin.isEnabled();
-    expect(result).toEqual({ enabled: false });
+  describe('isEnabled', () => {
+    it('returns false on web (DND not detectable)', async () => {
+      const result = await plugin.isEnabled();
+      expect(result).toEqual({ enabled: false });
+    });
+
+    it('returns an object with enabled property', async () => {
+      const result = await plugin.isEnabled();
+      expect(result).toHaveProperty('enabled');
+      expect(typeof result.enabled).toBe('boolean');
+    });
   });
 
-  it('setEnabled throws on web', async () => {
-    await expect(plugin.setEnabled({ enabled: true })).rejects.toThrow(
-      'Setting DND state is not supported on web',
-    );
-  });
+  describe('setEnabled', () => {
+    it('throws when trying to enable DND', async () => {
+      await expect(plugin.setEnabled({ enabled: true })).rejects.toThrow(
+        'Setting DND state is not supported on web',
+      );
+    });
 
-  it('setEnabled throws for disable too', async () => {
-    await expect(plugin.setEnabled({ enabled: false })).rejects.toThrow();
+    it('throws when trying to disable DND', async () => {
+      await expect(plugin.setEnabled({ enabled: false })).rejects.toThrow(
+        'Setting DND state is not supported on web',
+      );
+    });
   });
 });
