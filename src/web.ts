@@ -1,15 +1,13 @@
-import { WebPlugin } from "@capacitor/core";
+import { WebPlugin } from '@capacitor/core';
 
-import type { DoNotDisturbPlugin } from "./definitions";
+import type { DoNotDisturbPlugin } from './definitions';
 
 export class DoNotDisturbWeb extends WebPlugin implements DoNotDisturbPlugin {
-  async monitor(): Promise<{ enabled: boolean }> {
+  async isEnabled(): Promise<{ enabled: boolean }> {
     return { enabled: false };
   }
 
-  async set(_options: { enabled: boolean }): Promise<void> {
-    throw new Error('Setting DND state not supported on web');
+  async setEnabled(): Promise<void> {
+    throw new Error('Setting DND state is not supported on web');
   }
-
-
 }

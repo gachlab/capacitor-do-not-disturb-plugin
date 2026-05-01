@@ -1,10 +1,6 @@
 package com.gachlab.capacitor.dnd;
 
 import android.Manifest;
-import android.app.NotificationManager;
-import android.content.Context;
-import android.content.Intent;
-import android.provider.Settings;
 
 import com.getcapacitor.JSObject;
 import com.getcapacitor.Plugin;
@@ -26,38 +22,33 @@ public class DoNotDisturbPlugin extends Plugin {
         implementation.startListening(() -> {
             JSObject ret = new JSObject();
             ret.put("enabled", implementation.isEnabled());
-            notifyListeners("monitor", ret);
+            notifyListeners("dndStateChanged", ret);
         });
     }
 
     @PluginMethod
-    public void monitor(PluginCall call) {
-        NotificationManager nm = (NotificationManager) getContext().getSystemService(Context.NOTIFICATION_SERVICE);
-        if (!nm.isNotificationPolicyAccessGranted()) {
-            Intent intent = new Intent(Settings.ACTION_NOTIFICATION_POLICY_ACCESS_SETTINGS);
-            getActivity().startActivity(intent);
+    public void isEnabled(PluginCall call) {
+        try {
+            JSObject ret = new JSObject();
+            ret.put("enabled", implementation.isEnabled());
+            call.resolve(ret);
+        } catch (Exception e) {
+            call.reject("Failed to check DND state", e);
         }
-        JSObject ret = new JSObject();
-        ret.put("enabled", implementation.isEnabled());
-        call.resolve(ret);
     }
 
     @PluginMethod
-    public void set(PluginCall call) {
-        boolean enabled = call.getBoolean("enabled", false);
-        NotificationManager nm = (NotificationManager) getContext().getSystemService(Context.NOTIFICATION_SERVICE);
-        if (!nm.isNotificationPolicyAccessGranted()) {
-            call.reject("Permission required: Go to Settings > Apps > [App Name] > Permissions > Do Not Disturb access");
-            return;
+    public void setEnabled(PluginCall call) {
+        try {
+            boolean enabled = call.getBoolean("enabled", false);
+            implementation.setEnabled(enabled);
+            call.resolve();
+        } catch (SecurityException e) {
+            call.reject("Permission required: enable Do Not Disturb access in Settings", e);
+        } catch (Exception e) {
+            call.reject("Failed to set DND state", e);
         }
-        implementation.setEnabled(enabled);
-        JSObject ret = new JSObject();
-        ret.put("enabled", implementation.isEnabled());
-        notifyListeners("monitor", ret);
-        call.resolve();
     }
-
-
 
     @Override
     protected void handleOnDestroy() {

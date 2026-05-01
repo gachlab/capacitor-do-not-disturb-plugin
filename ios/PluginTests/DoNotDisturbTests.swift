@@ -1,25 +1,22 @@
 import XCTest
-@testable import Plugin
+@testable import DoNotDisturbPlugin
 
 class DoNotDisturbTests: XCTestCase {
-    override func setUp() {
-        super.setUp()
-        // Put setup code here. This method is called before the invocation of each test method in the class.
-    }
-
-    override func tearDown() {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
-        super.tearDown()
-    }
-
-    func testEcho() {
-        // This is an example of a functional test case for a plugin.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
-
+    func testStopListeningWithoutStartDoesNotCrash() {
         let implementation = DoNotDisturb()
-        let value = "Hello, World!"
-        let result = implementation.echo(value)
+        implementation.stopListening()
+    }
 
-        XCTAssertEqual(value, result)
+    func testStartAndStopListeningDoesNotCrash() {
+        let implementation = DoNotDisturb()
+        implementation.startListening { }
+        implementation.stopListening()
+    }
+
+    func testDoubleStopListeningDoesNotCrash() {
+        let implementation = DoNotDisturb()
+        implementation.startListening { }
+        implementation.stopListening()
+        implementation.stopListening()
     }
 }
