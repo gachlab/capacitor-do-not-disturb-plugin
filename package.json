@@ -1,6 +1,6 @@
 {
   "name": "@gachlab/capacitor-dnd-plugin",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "Capacitor plugin to detect and control Do Not Disturb mode. Supports Android (full control) and iOS (detection via notification settings).",
   "type": "module",
   "main": "dist/plugin.cjs.js",
