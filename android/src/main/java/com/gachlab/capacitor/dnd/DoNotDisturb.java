@@ -8,6 +8,7 @@ import android.content.IntentFilter;
 import android.os.Build;
 
 public class DoNotDisturb {
+
     private final Context context;
     private BroadcastReceiver receiver;
 
@@ -25,9 +26,7 @@ public class DoNotDisturb {
         if (!nm.isNotificationPolicyAccessGranted()) {
             throw new SecurityException("ACCESS_NOTIFICATION_POLICY not granted");
         }
-        nm.setInterruptionFilter(enabled
-                ? NotificationManager.INTERRUPTION_FILTER_NONE
-                : NotificationManager.INTERRUPTION_FILTER_ALL);
+        nm.setInterruptionFilter(enabled ? NotificationManager.INTERRUPTION_FILTER_NONE : NotificationManager.INTERRUPTION_FILTER_ALL);
     }
 
     public void startListening(Runnable callback) {

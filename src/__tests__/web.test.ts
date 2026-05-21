@@ -23,15 +23,11 @@ describe('DoNotDisturbWeb', () => {
 
   describe('setEnabled', () => {
     it('throws when trying to enable DND', async () => {
-      await expect(plugin.setEnabled({ enabled: true })).rejects.toThrow(
-        'Setting DND state is not supported on web',
-      );
+      await expect(plugin.setEnabled({ enabled: true })).rejects.toThrow('Setting DND state is not supported on web');
     });
 
     it('throws when trying to disable DND', async () => {
-      await expect(plugin.setEnabled({ enabled: false })).rejects.toThrow(
-        'Setting DND state is not supported on web',
-      );
+      await expect(plugin.setEnabled({ enabled: false })).rejects.toThrow('Setting DND state is not supported on web');
     });
   });
 });
