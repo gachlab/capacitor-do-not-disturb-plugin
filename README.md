@@ -69,7 +69,7 @@ addListener(
 ) => Promise<PluginListenerHandle>
 ```
 
-Listens for changes to the DND state. On Android, this uses a `BroadcastReceiver`. On iOS, this polls notification settings every 2 seconds.
+Listens for changes to the DND state. On Android, this uses a `BroadcastReceiver`. On iOS, the state is re-checked each time the app returns to the foreground (`UIApplication.didBecomeActiveNotification` / `willEnterForegroundNotification`) — iOS does not provide a system-level DND/Focus change event, so background toggles are not observed in real time.
 
 ---
 
@@ -90,6 +90,8 @@ Requires `ACCESS_NOTIFICATION_POLICY` permission. The user must manually enable 
 ### iOS
 
 Apple does not provide a public API to read or control Focus/DND state. This plugin uses a heuristic: if notifications are authorized but alerts are disabled, DND is likely active. This is not 100% reliable. `setEnabled()` always rejects on iOS.
+
+State changes are detected when the app returns to the foreground, not while it is backgrounded — there is no iOS notification for DND/Focus toggles. If you need the freshest value at a specific moment (e.g. on a screen mount), call `isEnabled()` directly rather than relying on the event.
 
 ## Migration from v1
 

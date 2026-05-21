@@ -1,10 +1,11 @@
 import Foundation
+import UIKit
 import UserNotifications
 
 @objc public class DoNotDisturb: NSObject {
     private var callback: (() -> Void)?
-    private var timer: Timer?
-    private var lastState: Bool = false
+    private var lastState: Bool?
+    private var isListening = false
 
     @objc public func isEnabled(completion: @escaping (Bool) -> Void) {
         // iOS doesn't expose Focus/DND state directly.
@@ -19,23 +20,48 @@ import UserNotifications
     }
 
     @objc public func startListening(callback: @escaping () -> Void) {
+        guard !isListening else { return }
+        isListening = true
         self.callback = callback
-        DispatchQueue.main.async {
-            self.timer = Timer.scheduledTimer(withTimeInterval: 2.0, repeats: true) { [weak self] _ in
-                self?.isEnabled { currentState in
-                    guard let self = self else { return }
-                    if currentState != self.lastState {
-                        self.lastState = currentState
-                        callback()
-                    }
-                }
+
+        // iOS has no direct DND/Focus change event. Re-check whenever the app
+        // returns to the foreground — that's when the user has had an
+        // opportunity to toggle DND from Control Center or Settings.
+        let center = NotificationCenter.default
+        center.addObserver(
+            self,
+            selector: #selector(handleForegroundEvent),
+            name: UIApplication.didBecomeActiveNotification,
+            object: nil
+        )
+        center.addObserver(
+            self,
+            selector: #selector(handleForegroundEvent),
+            name: UIApplication.willEnterForegroundNotification,
+            object: nil
+        )
+    }
+
+    @objc public func stopListening() {
+        guard isListening else { return }
+        isListening = false
+        NotificationCenter.default.removeObserver(self)
+        callback = nil
+        lastState = nil
+    }
+
+    @objc private func handleForegroundEvent() {
+        isEnabled { [weak self] currentState in
+            guard let self = self, self.isListening else { return }
+            let previous = self.lastState
+            self.lastState = currentState
+            if previous != currentState {
+                self.callback?()
             }
         }
     }
 
-    @objc public func stopListening() {
-        timer?.invalidate()
-        timer = nil
-        callback = nil
+    deinit {
+        NotificationCenter.default.removeObserver(self)
     }
 }
