@@ -26,7 +26,7 @@ console.log('DND is', enabled ? 'on' : 'off');
 
 // Listen for DND state changes
 await DoNotDisturb.addListener('dndStateChanged', (state) => {
-  console.log('DND changed:', state.enabled);
+  console.log('DND changed:', state.enabled, 'at', new Date(state.timestamp));
 });
 
 // Enable DND (Android only)
@@ -65,11 +65,11 @@ Rejects with an error on iOS and Web.
 ```typescript
 addListener(
   eventName: 'dndStateChanged',
-  listenerFunc: (state: { enabled: boolean }) => void,
+  listenerFunc: (state: { enabled: boolean; timestamp: number }) => void,
 ) => Promise<PluginListenerHandle>
 ```
 
-Listens for changes to the DND state. On Android, this uses a `BroadcastReceiver`. On iOS, the state is re-checked each time the app returns to the foreground (`UIApplication.didBecomeActiveNotification` / `willEnterForegroundNotification`) — iOS does not provide a system-level DND/Focus change event, so background toggles are not observed in real time.
+Listens for changes to the DND state. `timestamp` is the epoch time in milliseconds when the change was observed, for audit logging. On Android, this uses a `BroadcastReceiver`. On iOS, the state is re-checked each time the app returns to the foreground (`UIApplication.didBecomeActiveNotification` / `willEnterForegroundNotification`) — iOS does not provide a system-level DND/Focus change event, so background toggles are not observed in real time.
 
 ---
 
