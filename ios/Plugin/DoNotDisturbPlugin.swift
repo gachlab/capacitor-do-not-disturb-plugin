@@ -15,7 +15,10 @@ public class DoNotDisturbPlugin: CAPPlugin, CAPBridgedPlugin {
         implementation.startListening { [weak self] in
             guard let self = self else { return }
             self.implementation.isEnabled { enabled in
-                self.notifyListeners("dndStateChanged", data: ["enabled": enabled])
+                self.notifyListeners("dndStateChanged", data: [
+                    "enabled": enabled,
+                    "timestamp": Date().timeIntervalSince1970 * 1000
+                ])
             }
         }
     }

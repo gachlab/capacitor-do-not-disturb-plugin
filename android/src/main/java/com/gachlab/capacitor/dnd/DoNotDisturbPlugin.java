@@ -22,6 +22,7 @@ public class DoNotDisturbPlugin extends Plugin {
         implementation.startListening(() -> {
             JSObject ret = new JSObject();
             ret.put("enabled", implementation.isEnabled());
+            ret.put("timestamp", System.currentTimeMillis());
             notifyListeners("dndStateChanged", ret);
         });
     }

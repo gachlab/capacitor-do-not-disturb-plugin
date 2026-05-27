@@ -15,10 +15,13 @@ export interface DoNotDisturbPlugin {
 
   /**
    * Listens for changes to the Do Not Disturb state.
+   *
+   * `timestamp` is the epoch time in milliseconds when the change was observed,
+   * so consumers can keep an accurate audit log.
    */
   addListener(
     eventName: 'dndStateChanged',
-    listenerFunc: (state: { enabled: boolean }) => void,
+    listenerFunc: (state: { enabled: boolean; timestamp: number }) => void,
   ): Promise<PluginListenerHandle>;
 
   /**
