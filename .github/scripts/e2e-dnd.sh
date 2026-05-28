@@ -31,8 +31,16 @@ adb install -r --no-streaming "$APK"
 
 echo "→ Launching app"
 adb shell am start -n "${PACKAGE}/${ACTIVITY}"
-# Capacitor WebView can take 10-15 s to fully initialize on a CI emulator.
-sleep 15
+
+# Wait until the WebView has actually registered the JS listener before we
+# toggle DND — otherwise the broadcast fires while "No listeners found" and the
+# event never reaches JS. The Capacitor bridge logs the addListener call.
+echo "→ Waiting for the WebView to register the dndStateChanged listener"
+if ! timeout 90 bash -c 'until adb logcat -d 2>/dev/null | grep -q "addListener.*dndStateChanged"; do sleep 2; done'; then
+  echo "✗ JS never registered the dndStateChanged listener within 90 s"
+  adb logcat -d | grep -iE "Capacitor|chromium|console|error" | tail -30
+  exit 1
+fi
 
 # Normalise DND to OFF so the first real toggle below produces a state change.
 echo "→ Normalising DND to off"
