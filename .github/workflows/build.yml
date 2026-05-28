@@ -58,6 +58,9 @@ jobs:
       - name: Build example APK
         working-directory: example-app/android
         run: ./gradlew assembleDebug --no-daemon
+      - name: Build instrumented test APK
+        working-directory: android
+        run: ./gradlew assembleDebugAndroidTest --no-daemon
       - name: Integration + E2E on emulator
         uses: reactivecircus/android-emulator-runner@v2
         with:
@@ -65,7 +68,7 @@ jobs:
           arch: x86_64
           profile: Nexus 6
           script: >-
-            (cd android && ./gradlew connectedDebugAndroidTest --no-daemon) &&
+            .github/scripts/integration-dnd.sh &&
             .github/scripts/e2e-dnd.sh
       - name: Upload logcat on failure
         if: failure()
