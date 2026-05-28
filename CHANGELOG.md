@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+## 2.1.1 (2026-05-28)
+
 ### Bug Fixes
 
 - **Packaging:** Node ESM consumers failed to import the package with `SyntaxError: exports is not defined in ES module scope`. Same bug as `@gachlab/capacitor-permissions` (fixed in 3.1.2, gachlab/capacitor-permissions-plugin#10): the CJS bundle was emitted as `dist/plugin.cjs.js` (`.js` extension) while `package.json` declares `"type": "module"`, so Node parsed it as ESM and rejected its CommonJS syntax. Renamed the CJS output to `dist/plugin.cjs`, pointed `"main"` at it, and added an `"exports"` field with conditional `import`/`require`. Closes #10.
