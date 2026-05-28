@@ -67,6 +67,8 @@ jobs:
           api-level: 30
           arch: x86_64
           profile: Nexus 6
+          cores: 2
+          ram-size: 4096M
           script: >-
             .github/scripts/integration-dnd.sh &&
             .github/scripts/e2e-dnd.sh

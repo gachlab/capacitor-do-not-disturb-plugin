@@ -24,8 +24,10 @@ ACTIVITY=".MainActivity"
 LOGCAT_OUT="/tmp/e2e-logcat.txt"
 PASS=0
 
+"$(dirname "$0")/wait-for-emulator.sh"
+
 echo "→ Installing APK: $APK"
-adb install -r "$APK"
+adb install -r --no-streaming "$APK"
 
 echo "→ Launching app"
 adb shell am start -n "${PACKAGE}/${ACTIVITY}"

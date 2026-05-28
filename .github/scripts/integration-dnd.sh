@@ -16,13 +16,10 @@ set -euo pipefail
 TEST_APK=$(find android/build/outputs/apk/androidTest/debug -name "*.apk" | head -1)
 RUNNER="com.gachlab.capacitor.dnd.test/androidx.test.runner.AndroidJUnitRunner"
 
-echo "→ Waiting for emulator to finish booting"
-adb wait-for-device
-timeout 180 bash -c 'while [[ "$(adb shell getprop sys.boot_completed 2>/dev/null | tr -d "\r")" != "1" ]]; do sleep 2; done'
-adb shell input keyevent 82 >/dev/null 2>&1 || true
+"$(dirname "$0")/wait-for-emulator.sh"
 
 echo "→ Installing instrumented test APK: $TEST_APK"
-adb install -r -t "$TEST_APK"
+adb install -r -t --no-streaming "$TEST_APK"
 
 echo "→ Running instrumented tests ($RUNNER)"
 OUT=$(adb shell am instrument -w "$RUNNER" 2>&1)
