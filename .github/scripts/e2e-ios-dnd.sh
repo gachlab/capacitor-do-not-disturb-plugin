@@ -13,7 +13,13 @@ set -euo pipefail
 REPO_ROOT="$(cd "$(dirname "$0")/../.." && pwd)"
 EXAMPLE_IOS="${REPO_ROOT}/example-app/ios/App"
 SCHEME="${XCODE_SCHEME:-AppUITests}"
-SIM_NAME="${SIMULATOR_NAME:-iPhone 16}"
+# Default to a substring match so we pick whatever iPhone simulator is
+# installed on the runner (the selector below iterates runtimes newest-first
+# and takes the first iPhone whose name contains this string). Self-hosted
+# runners may not have the same model that GitHub-hosted macos-15 ships,
+# so hard-coding a specific generation made this script brittle to runner
+# changes. Override with SIMULATOR_NAME=… to pin a specific model.
+SIM_NAME="${SIMULATOR_NAME:-iPhone}"
 RESULT_BUNDLE="/tmp/e2e-ios-results.xcresult"
 
 log() { echo "[e2e-ios-dnd] $*"; }
