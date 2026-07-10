@@ -1,0 +1,9 @@
+{
+  "appId": "com.gachlab.capacitor.dnd.example",
+  "appName": "DND Example",
+  "webDir": "www",
+  "server": {
+    "androidScheme": "https",
+    "cleartext": true
+  }
+}
