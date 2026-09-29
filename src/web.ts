@@ -10,4 +10,8 @@ export class DoNotDisturbWeb extends WebPlugin implements DoNotDisturbPlugin {
   async setEnabled(): Promise<void> {
     throw new Error('Setting DND state is not supported on web');
   }
+
+  async openDndSettings(): Promise<void> {
+    throw new Error('Opening DND access settings is not supported on web');
+  }
 }

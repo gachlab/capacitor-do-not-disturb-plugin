@@ -7,7 +7,8 @@ public class DoNotDisturbPlugin: CAPPlugin, CAPBridgedPlugin {
     public let jsName = "DoNotDisturb"
     public let pluginMethods: [CAPPluginMethod] = [
         CAPPluginMethod(name: "isEnabled", returnType: CAPPluginReturnPromise),
-        CAPPluginMethod(name: "setEnabled", returnType: CAPPluginReturnPromise)
+        CAPPluginMethod(name: "setEnabled", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "openDndSettings", returnType: CAPPluginReturnPromise)
     ]
     private let implementation = DoNotDisturb()
 
@@ -31,6 +32,10 @@ public class DoNotDisturbPlugin: CAPPlugin, CAPBridgedPlugin {
 
     @objc func setEnabled(_ call: CAPPluginCall) {
         call.reject("iOS does not allow programmatic DND control")
+    }
+
+    @objc func openDndSettings(_ call: CAPPluginCall) {
+        call.reject("Opening DND access settings is not supported on iOS")
     }
 
     deinit {

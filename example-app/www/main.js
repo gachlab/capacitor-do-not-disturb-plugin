@@ -43,6 +43,8 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   document.getElementById('enable').onclick = () =>
     safe('setEnabled(true)', () => DoNotDisturb.setEnabled({ enabled: true }));
+  document.getElementById('settings').onclick = () =>
+    safe('openDndSettings', () => DoNotDisturb.openDndSettings());
   document.getElementById('disable').onclick = () =>
     safe('setEnabled(false)', () => DoNotDisturb.setEnabled({ enabled: false }));
 
