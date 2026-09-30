@@ -34,11 +34,11 @@ final class DndE2ETests: XCTestCase {
 
         // The dnd-state span starts at "unknown" and flips to "on"/"off" once the
         // native isEnabled() call resolves through the bridge.
-        let resolved = NSPredicate(format: "label == 'on' OR label == 'off'")
+        let resolved = NSPredicate(format: "label CONTAINS 'DND: on' OR label CONTAINS 'DND: off'")
         let stateEl = webView.staticTexts.matching(resolved).firstMatch
         XCTAssert(
             stateEl.waitForExistence(timeout: 10),
-            "isEnabled() round-trip did not resolve to a concrete DND state"
+            "isEnabled() round-trip did not resolve to a concrete DND state. UI: \(webView.debugDescription)"
         )
     }
 }

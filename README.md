@@ -29,7 +29,10 @@ await DoNotDisturb.addListener('dndStateChanged', (state) => {
   console.log('DND changed:', state.enabled, 'at', new Date(state.timestamp));
 });
 
-// Enable DND (Android only)
+// In an "Enable DND access" button handler (Android only):
+await DoNotDisturb.openDndSettings();
+
+// After the user returns from Settings, in a separate action (Android only):
 await DoNotDisturb.setEnabled({ enabled: true });
 
 // Disable DND (Android only)
@@ -60,6 +63,18 @@ Rejects with an error on iOS and Web.
 
 ---
 
+### openDndSettings()
+
+```typescript
+openDndSettings() => Promise<void>
+```
+
+Opens Android's Do Not Disturb access settings so the user can grant the app notification policy access. The promise resolves when the settings screen opens; it does not indicate that access was granted. Call `setEnabled()` after the user returns to the app; it will reject if access is still missing.
+
+Rejects with an error on iOS and Web. On some Android devices, the settings screen may be unavailable; in that case the promise rejects.
+
+---
+
 ### addListener('dndStateChanged', ...)
 
 ```typescript
@@ -85,7 +100,7 @@ Removes all event listeners for this plugin.
 
 ### Android
 
-Requires `ACCESS_NOTIFICATION_POLICY` permission. The user must manually enable "Do Not Disturb access" for your app in system settings. The `setEnabled()` method will reject if this permission is not granted.
+Changing DND with `setEnabled()` requires `ACCESS_NOTIFICATION_POLICY`. Call `openDndSettings()` to let the user manually enable "Do Not Disturb access" for your app. The `setEnabled()` method will reject if access is not granted.
 
 ### iOS
 

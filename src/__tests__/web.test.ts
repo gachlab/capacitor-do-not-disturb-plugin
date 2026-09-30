@@ -31,4 +31,10 @@ describe('DoNotDisturbWeb', () => {
       await assert.rejects(() => plugin.setEnabled({ enabled: false }), /Setting DND state is not supported on web/);
     });
   });
+
+  describe('openDndSettings', () => {
+    it('rejects on web', async () => {
+      await assert.rejects(() => plugin.openDndSettings(), /Opening DND access settings is not supported on web/);
+    });
+  });
 });

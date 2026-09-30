@@ -1,6 +1,9 @@
 package com.gachlab.capacitor.dnd;
 
 import android.Manifest;
+import android.content.ActivityNotFoundException;
+import android.content.Intent;
+import android.provider.Settings;
 import com.getcapacitor.JSObject;
 import com.getcapacitor.Plugin;
 import com.getcapacitor.PluginCall;
@@ -48,6 +51,16 @@ public class DoNotDisturbPlugin extends Plugin {
             call.reject("Permission required: enable Do Not Disturb access in Settings", e);
         } catch (Exception e) {
             call.reject("Failed to set DND state", e);
+        }
+    }
+
+    @PluginMethod
+    public void openDndSettings(PluginCall call) {
+        try {
+            getActivity().startActivity(new Intent(Settings.ACTION_NOTIFICATION_POLICY_ACCESS_SETTINGS));
+            call.resolve();
+        } catch (ActivityNotFoundException | SecurityException e) {
+            call.reject("Unable to open Do Not Disturb access settings", e);
         }
     }
 

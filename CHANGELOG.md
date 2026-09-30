@@ -2,6 +2,14 @@
 
 ## Unreleased
 
+### Improvements
+
+- **Android:** Added `openDndSettings()` to open the system's Do Not Disturb access settings. The user must still grant access there. Closes #13.
+
+### CI
+
+- Updated the iOS example app to use a scene lifecycle required by the current SDK, and corrected its E2E accessibility assertion for the combined DND status label.
+
 ## 2.1.1 (2026-05-28)
 
 ### Bug Fixes
