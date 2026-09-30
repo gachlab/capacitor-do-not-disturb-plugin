@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+## 2.2.0 (2026-09-30)
+
 ### Improvements
 
 - **Android:** Added `openDndSettings()` to open the system's Do Not Disturb access settings. The user must still grant access there. Closes #13.
